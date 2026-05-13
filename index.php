@@ -25,62 +25,80 @@ $mensaje = "";
 // 2. PROCESAR ENVÍO DEL FORMULARIO DE REGISTRO
 // ----------------------------------------
 if (isset($_POST['registro'])) {
+    $mensaje = '';
+    $valid = true;
+
     // Validar CSRF
     if (!isset($_POST['csrf']) || !verify_csrf($_POST['csrf'])) {
         $mensaje = "❌ Token CSRF inválido. Recarga la página.";
-    } else {
-        // Capturar y sanitizar datos
-        $nombre   = trim($_POST['nombre'] ?? '');
-        $correo   = trim($_POST['correo'] ?? '');
-        $telefono = trim($_POST['telefono'] ?? '');
-        $role     = 'user'; // Rol por defecto
-        $password = $_POST['contraseña'] ?? '';
+        $valid = false;
+    }
 
-        if ($nombre === '' || $correo === '' || $telefono === '' || $password === '') {
-            $mensaje = "❌ Todos los campos son obligatorios.";
-        } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-            $mensaje = "❌ El correo no es válido.";
-        } else {
-            // Verificar si el correo ya existe
-            $check = $enlace->prepare("SELECT id FROM usuarios WHERE correo = ?");
-            if ($check) {
-                $check->bind_param("s", $correo);
-                $check->execute();
-                $check->store_result();
-                if ($check->num_rows > 0) {
-                    $mensaje = "❌ Ese correo ya está registrado";
-                    $check->close();
-                } else {
-                    $check->close();
+    // Capturar y sanitizar datos
+    $nombre   = trim($_POST['nombre'] ?? '');
+    $correo   = trim($_POST['correo'] ?? '');
+    $telefono = trim($_POST['telefono'] ?? '');
+    $role     = 'user'; // Rol por defecto
+    $password = $_POST['contraseña'] ?? '';
 
-                    // Encriptar contraseña
-                    $hash = password_hash($password, PASSWORD_DEFAULT);
+    // Validar campos obligatorios
+    if ($valid && ($nombre === '' || $correo === '' || $telefono === '' || $password === '')) {
+        $mensaje = "❌ Todos los campos son obligatorios.";
+        $valid = false;
+    }
 
-                    // Insertar nuevo usuario
-                    $stmt = $enlace->prepare("INSERT INTO usuarios (nombre, correo, contraseña, telefono, role) VALUES (?, ?, ?, ?, ?)");
-                    if ($stmt) {
-                        $stmt->bind_param("sssss", $nombre, $correo, $hash, $telefono, $role);
-                        if ($stmt->execute()) {
-                            $mensaje = "✅ Registro exitoso";
-                        } else {
-                            if ($stmt->errno === 1062) {
-                                $mensaje = "❌ Ese correo ya está registrado";
-                            } else {
-                                $mensaje = "❌ Error al registrar: " . $stmt->error;
-                            }
-                        }
-                        $stmt->close();
-                    } else {
-                        $mensaje = "❌ Error interno al preparar el registro.";
-                    }
-                }
-            } else {
-                $mensaje = "❌ Error al verificar el correo.";
+    // Validar correo
+    if ($valid && !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        $mensaje = "❌ El correo no es válido.";
+        $valid = false;
+    }
+
+    if ($valid) {
+        // Verificar si el correo ya existe
+        $stmt = $enlace->prepare("SELECT COUNT(*) FROM usuarios WHERE correo = ?");
+        if ($stmt) {
+            $stmt->bind_param("s", $correo);
+            $stmt->execute();
+            $stmt->bind_result($count);
+            $stmt->fetch();
+            $stmt->close();
+
+            if ($count > 0) {
+                $mensaje = "❌ Ese correo ya está registrado.";
+                $valid = false;
             }
+        } else {
+            $mensaje = "❌ Error al verificar el correo.";
+            $valid = false;
         }
     }
-}
 
+    if ($valid) {
+        // Encriptar contraseña
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insertar nuevo usuario
+        $stmt = $enlace->prepare("INSERT INTO usuarios (nombre, correo, contraseña, telefono, role) VALUES (?, ?, ?, ?, ?)");
+        if ($stmt) {
+            $stmt->bind_param("sssss", $nombre, $correo, $hash, $telefono, $role);
+            if ($stmt->execute()) {
+                $mensaje = "✅ Registro exitoso, bienvenido " . htmlspecialchars($nombre);
+            } else {
+                if ($stmt->errno === 1062) {
+                    $mensaje = "❌ Ese correo ya está registrado.";
+                } else {
+                    $mensaje = "❌ Error al registrar: " . $stmt->error;
+                    error_log("Error de registro: " . $stmt->error, 3, "errores.log");
+                }
+            }
+            $stmt->close();
+        } else {
+            $mensaje = "❌ Error interno al preparar el registro.";
+        }
+    }
+
+    echo htmlspecialchars($mensaje);
+}
 
 ?>
 <!DOCTYPE html>
