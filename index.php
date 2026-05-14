@@ -183,7 +183,7 @@ thead {
        Encabezado y navegación
        --------------------------- */
     header {
-      background: linear-gradient(to right, #a18262, #c2a98b);
+      background: linear-gradient(to right, #645444, #c5ae92);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
