@@ -128,12 +128,13 @@ if (isset($_POST['registro'])) {
   overflow-x: hidden;
 }
 section {
-  background-color: rgba(255, 250, 245, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 30px 20px;
-  margin: 30px auto;
-  max-width: 1000px;
+  display: none;
+  padding: 20px;
+  background-color: #f1f0ee;
+}
+
+section.active {
+  display: block;
 }
 h2, h3 {
   color: #8c6c46;
@@ -228,18 +229,27 @@ thead {
        Home
        --------------------------- */
     .home-text { font-family:'Playfair Display', serif; font-size:16px; font-style:italic; color:#4d4537; text-align:center; margin-bottom:10px; }
-    .home-banner {
-  max-width: 500px;
-  height: 300px; /* 👈 reduce la altura */
-  margin: 20px auto;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  border: 1px solid #d6d2c4;
+    #home {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
+.home-banner {
+  width: 100vw;
+  height: 500px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+}
 
-    .home-banner img {
+.home-banner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -249,9 +259,19 @@ thead {
   animation: zoom 20s infinite alternate ease-in-out;
 }
 
-    .home-banner img:hover { transform:scale(1.02); }
-    .home-slogan { text-align:center; font-family:'Playfair Display', serif; font-size:22px; color:#4d4537; margin:10px 0 20px; }
-    @keyframes zoom {
+.home-banner img:hover {
+  transform: scale(1.02);
+}
+
+.home-slogan {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: #4d4537;
+  margin: 10px 0 20px;
+}
+
+@keyframes zoom {
   0% { transform: scale(1); }
   100% { transform: scale(1.1); }
 }
