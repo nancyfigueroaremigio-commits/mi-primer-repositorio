@@ -136,6 +136,10 @@ section {
 section.active {
   display: block;
 }
+
+section.active {
+  display: block;
+}
 h2, h3 {
   color: #8c6c46;
 }
@@ -577,51 +581,69 @@ $color = match ($estado) {
 
     <!-- HOME (si no lo tienes duplicado, deja uno solo) -->
   <section id="home" class="active">
-    <div class="home-text"><p>"Tu espacio merece un detalle hecho a mano."</p></div>
-    <div class="home-banner"><img src="Fondo.png" alt="Cerámica en proceso de moldeado"></div>
-    <div class="home-slogan">Transformamos barro en creaciones únicas</div>
 
-    <div class="featured-products">
-  <h3>Algunas de nuestras creaciones</h3>
-  <div class="product-grid" id="creaciones-destacadas">
-    <!-- Se llenará dinámicamente -->
+  <div class="home-text">
+    <p>"Tu espacio merece un detalle hecho a mano."</p>
   </div>
-</div>
 
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTO -->
-  <section id="contact" class="contact-section">
-    <h2>Contáctanos</h2>
-    <p><strong>Tienda física:</strong> Calle Cualquiera 123, Cualquier Lugar</p>
-    <p><strong>Teléfono:</strong> 911-234-5678</p>
-    <p><strong>Email:</strong> hola@creacionesmileth.com</p>
-  </section>
-
-  <!-- CATALOGO -->
-  <section id="catalogo" class="catalog-section">
-    <h2>Catálogo de Productos</h2>
-    <?php if (current_role() === 'admin'): ?>
-  <div style="text-align:right; margin-bottom:10px;">
+  <div class="home-banner">
+    <img src="Fondo.png" alt="Cerámica en proceso de moldeado">
   </div>
-<?php endif; ?>
 
-    <div class="product-grid" id="catalogo-grid">
-      <!-- Productos definidos en JS -->
+  <div class="home-slogan">
+    Transformamos barro en creaciones únicas
+  </div>
+
+  <div class="featured-products">
+    <h3>Algunas de nuestras creaciones</h3>
+
+    <div class="product-grid" id="creaciones-destacadas">
+      <!-- Se llenará dinámicamente -->
     </div>
+  </div>
 
-    <div class="carrito">
-      <h3>🛒 Carrito</h3>
-      <ul id="lista-carrito"></ul>
-      <div id="carrito-total" style="margin-top:10px; font-weight:600; color:#4d4537;"></div>
-      <div style="margin-top:12px;">
-        <button id="checkout-btn" class="cta">Pagar / Confirmar pedido</button>
+  <div style="
+    margin-top:60px;
+    background:#f5f3ef;
+    padding:50px;
+    border-radius:14px;
+  ">
+
+    <div style="
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:40px;
+      flex-wrap:wrap;
+    ">
+
+      <div style="flex:1; min-width:300px;">
+        <h2 style="
+          font-size:38px;
+          color:#2d241b;
+          line-height:1.3;
+          font-family:'Poppins', sans-serif;
+          font-weight:600;
+        ">
+          Contamos con impresión de logo o nombres
+          para hacer tu artículo memorable
+        </h2>
       </div>
+
+      <div style="flex:1; display:flex; justify-content:center;">
+        <img src="imagenpromocional5.jpg"
+             alt="Cerámica personalizada"
+             style="
+               width:100%;
+               max-width:600px;
+               border-radius:12px;
+             ">
+      </div>
+
     </div>
-  </section>
+
+  </div>
+
 
   <!-- REGISTRO -->
   <?php $token = csrf_token(); ?>
