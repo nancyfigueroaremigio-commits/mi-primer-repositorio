@@ -30,36 +30,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($email === '' || $password === '') {
             $error = 'Completa todos los campos';
         } else {
-            $stmt = $mysqli->prepare("SELECT id, nombre, correo, contraseña, role FROM usuarios WHERE correo = ?");
-            if ($stmt) {
-                $stmt->bind_param('s', $email);
-                $stmt->execute();
-                $res = $stmt->get_result();
-                if ($row = $res->fetch_assoc()) {
-                    if (password_verify($password, $row['contraseña'])) {
-                        session_regenerate_id(true);
-                        $_SESSION['user'] = [
-                            'id' => (int)$row['id'],
-                            'nombre' => $row['nombre'],
-                            'correo' => $row['correo'], // ✅ corregido
-                            'role' => $row['role']
-                        ];
-                        $_SESSION['last_activity'] = time();
-                        header('Location: index.php');
-                        exit;
-                    } else {
-                        $error = 'Credenciales incorrectas';
-                    }
-                } else {
-                    $error = 'Usuario no encontrado';
-                }
-                $stmt->close();
+            // Validar captcha
+            if (!isset($_POST['captcha']) || $_POST['captcha'] != $_SESSION['captcha']) {
+                $error = '❌ Captcha incorrecto';
             } else {
-                $error = 'Error interno';
-            }
-        }
-    }
-}
+                // si el captcha es correcto, sigue con la consulta SQL
+                $stmt = $mysqli->prepare("SELECT id, nombre, correo, contraseña, role FROM usuarios WHERE correo = ?");
+                if ($stmt) {
+                    $stmt->bind_param('s', $email);
+                    $stmt->execute();
+                    $res = $stmt->get_result();
+                    if ($row = $res->fetch_assoc()) {
+                        if (password_verify($password, $row['contraseña'])) {
+                            session_regenerate_id(true);
+                            $_SESSION['user'] = [
+                                'id' => (int)$row['id'],
+                                'nombre' => $row['nombre'],
+                                'correo' => $row['correo'],
+                                'role' => $row['role']
+                            ];
+                            $_SESSION['last_activity'] = time();
+                            header('Location: index.php');
+                            exit;
+                        } else {
+                            $error = 'Credenciales incorrectas';
+                        }
+                    } else {
+                        $error = 'Usuario no encontrado';
+                    }
+                    $stmt->close();
+                } else {
+                    $error = 'Error interno';
+                }
+            } 
+        } 
+    } 
+} 
 
 $token = csrf_token();
 ?>
@@ -87,20 +93,33 @@ $token = csrf_token();
     <?php if ($error): ?><div class="error"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
     <form method="post" action="login.php">
       <input type="hidden" name="csrf" value="<?php echo htmlspecialchars($token); ?>">
+
       <label>
         Correo
         <input type="email" name="email" required>
       </label>
+
       <label>
         Contraseña
         <input type="password" name="password" required>
       </label>
+
+      <!-- Captcha matemático -->
+      <label>
+        <?php 
+          $a = rand(1,9); 
+          $b = rand(1,9); 
+          $_SESSION['captcha'] = $a + $b; 
+          echo "¿Cuánto es $a + $b ?"; 
+        ?>
+        <input type="text" name="captcha" placeholder="Respuesta" required>
+      </label>
+
       <div class="actions">
         <button type="submit">Entrar</button>
         <p style="margin-top:10px;">
-  <a href="recuperar.php" style="color:#8c6c46; font-weight:600;">¿Olvidaste tu contraseña?</a>
-</p>
-
+          <a href="recuperar.php" style="color:#8c6c46; font-weight:600;">¿Olvidaste tu contraseña?</a>
+        </p>
         <a href="index.php">Volver</a>
       </div>
     </form>
