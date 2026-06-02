@@ -99,10 +99,13 @@ $token = csrf_token();
         <input type="email" name="email" required>
       </label>
 
-      <label>
+       <label>
         Contraseña
-        <input type="password" name="password" required>
-      </label>
+        <div style="display:flex; align-items:center;">
+            <input type="password" id="password" name="password" required style="flex:1;">
+            <button type="button" onclick="togglePassword()" style="margin-left:6px;">👁️</button>
+        </div>
+       </label>
 
       <!-- Captcha matemático -->
       <label>
@@ -124,6 +127,12 @@ $token = csrf_token();
       </div>
     </form>
   </div>
+<script>
+function togglePassword() {
+  const input = document.getElementById('password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+</script>
 </body>
 </html>
 
