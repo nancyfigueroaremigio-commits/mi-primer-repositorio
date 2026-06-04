@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
+
         if ($email === '' || $password === '') {
             $error = 'Completa todos los campos';
         } else {
@@ -40,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->bind_param('s', $email);
                     $stmt->execute();
                     $res = $stmt->get_result();
+
                     if ($row = $res->fetch_assoc()) {
                         if (password_verify($password, $row['contraseña'])) {
                             session_regenerate_id(true);
@@ -62,10 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $error = 'Error interno';
                 }
-            } 
-        } 
-    } 
-} 
+            }
+        }
+    }
+}
 
 $token = csrf_token();
 ?>
@@ -92,47 +94,36 @@ $token = csrf_token();
     <h2>Iniciar sesión</h2>
     <?php if ($error): ?><div class="error"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
     <form method="post" action="login.php">
-      <input type="hidden" name="csrf" value="<?php echo htmlspecialchars($token); ?>">
+  <input type="hidden" name="csrf" value="<?php echo htmlspecialchars($token); ?>">
 
-      <label>
-        Correo
-        <input type="email" name="email" required>
-      </label>
+  <label>
+    Correo
+    <input type="email" name="email" required>
+  </label>
 
-       <label>
-        Contraseña
-        <div style="display:flex; align-items:center;">
-            <input type="password" id="password" name="password" required style="flex:1;">
-            <button type="button" onclick="togglePassword()" style="margin-left:6px;">👁️</button>
-        </div>
-       </label>
+  <label>
+    Contraseña
+    <input type="password" name="password" required>
+  </label>
 
-      <!-- Captcha matemático -->
-      <label>
-        <?php 
-          $a = rand(1,9); 
-          $b = rand(1,9); 
-          $_SESSION['captcha'] = $a + $b; 
-          echo "¿Cuánto es $a + $b ?"; 
-        ?>
-        <input type="text" name="captcha" placeholder="Respuesta" required>
-      </label>
+  <!-- Captcha matemático -->
+    <label>
+        Ingresa el código: 
+        <?php include("captcha.php"); ?>
+        <input type="text" name="captcha" placeholder="Código" required>
+    </label>
 
-      <div class="actions">
-        <button type="submit">Entrar</button>
-        <p style="margin-top:10px;">
-          <a href="recuperar.php" style="color:#8c6c46; font-weight:600;">¿Olvidaste tu contraseña?</a>
-        </p>
-        <a href="index.php">Volver</a>
-      </div>
-    </form>
+
+  <div class="actions">
+    <button type="submit">Entrar</button>
+    <p style="margin-top:10px;">
+      <a href="recuperar.php" style="color:#8c6c46; font-weight:600;">¿Olvidaste tu contraseña?</a>
+    </p>
+    <a href="index.php">Volver</a>
   </div>
-<script>
-function togglePassword() {
-  const input = document.getElementById('password');
-  input.type = input.type === 'password' ? 'text' : 'password';
-}
-</script>
+</form>
+
+  </div>
 </body>
 </html>
 

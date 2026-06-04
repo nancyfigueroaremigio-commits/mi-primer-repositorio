@@ -1,8 +1,6 @@
 <?php
-session_start();
-$a = rand(1,9);
-$b = rand(1,9);
-$_SESSION['captcha'] = $a + $b;
-echo "¿Cuánto es $a + $b ?";
+$captcha = substr(str_shuffle("ABCDEFGHJKLMNPQRSTUVWXYZ23456789"), 0, 10);
+$_SESSION['captcha'] = $captcha;
+echo "<strong style='font-family:monospace; letter-spacing:3px;'>$captcha</strong>";
 ?>
 
