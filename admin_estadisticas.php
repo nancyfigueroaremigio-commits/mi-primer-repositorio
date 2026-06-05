@@ -3,6 +3,7 @@ require_once 'auth.php';
 require_login();
 require_role('admin');
 
+
 $mysqli = new mysqli("localhost", "root", "", "ejemplo");
 if ($mysqli->connect_errno) die("Error de conexión");
 
