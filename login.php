@@ -76,20 +76,61 @@ $token = csrf_token();
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Iniciar sesión - Creaciones Mileth</title>
   <style>
-    body{font-family:Arial, sans-serif;margin:20px;background:#f7f6f4;color:#222;}
-    .card{max-width:420px;margin:24px auto;padding:18px;border-radius:8px;background:#fff;border:1px solid #e3e0d8;}
+    body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: linear-gradient(135deg, #f7f6f4, #e3d5c3); /* degradado */
+  color: #222;
+}
+
+.card {
+  max-width: 420px;
+  margin: 24px auto;
+  padding: 18px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e3e0d8;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* sombra */
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-4px); /* efecto al pasar el mouse */
+}
+
     h2{color:#8c6c46;font-family: 'Playfair Display', serif;}
     label{display:block;margin:10px 0;font-size:14px;}
     input{width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;}
-    button{background:#8c6c46;color:#fff;border:none;padding:10px 14px;border-radius:6px;cursor:pointer;margin-top:12px;}
+    button {
+  background: linear-gradient(90deg, #8c6c46, #a07a50);
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 12px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+button:hover {
+  background: #a07a50;
+}
     .error{color:#c0392b;font-weight:600;margin-bottom:10px;}
     .actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
     a{color:#4d4537;text-decoration:none;}
+    .card {
+  animation: fadeIn 0.8s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
   </style>
 </head>
 <body>
   <div class="card">
+    <img src="logo.png" alt="Logo Creaciones Mileth" style="width:80px; display:block; margin:0 auto 20px;">
     <h2>Iniciar sesión</h2>
+    <hr style="border:0; height:2px; background:#8c6c46; margin:12px 0;">
     <?php if ($error): ?><div class="error"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
     <form method="post" action="login.php">
       <input type="hidden" name="csrf" value="<?php echo htmlspecialchars($token); ?>">
