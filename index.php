@@ -438,7 +438,6 @@ $ruta = ($icono && file_exists($icono)) ? $icono : 'img/Iconopred.png';
   <a href="admin_altas.php">Altas</a>
   <a href="admin_products.php">Productos</a>
   <a href="admin_users.php">Usuarios</a>
-  <a href="admin_estadisticas.php">Estadísticas</a>
 <?php endif; ?>
 
       

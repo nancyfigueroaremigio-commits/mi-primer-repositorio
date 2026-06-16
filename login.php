@@ -8,7 +8,7 @@ if (is_logged_in()) {
     exit;
 }
 
-// Config DB (ajusta si hace falta)
+// Config DB
 $servidor = "localhost";
 $usuario  = "root";
 $clave    = "";
@@ -21,7 +21,6 @@ if ($mysqli->connect_errno) {
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // verificar CSRF
     if (!isset($_POST['csrf']) || !verify_csrf($_POST['csrf'])) {
         $error = 'Token inválido';
     } else {
@@ -30,11 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($email === '' || $password === '') {
             $error = 'Completa todos los campos';
         } else {
-            // Validar captcha
             if (!isset($_POST['captcha']) || $_POST['captcha'] != $_SESSION['captcha']) {
                 $error = '❌ Captcha incorrecto';
             } else {
-                // si el captcha es correcto, sigue con la consulta SQL
                 $stmt = $mysqli->prepare("SELECT id, nombre, correo, contraseña, role FROM usuarios WHERE correo = ?");
                 if ($stmt) {
                     $stmt->bind_param('s', $email);
@@ -62,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $error = 'Error interno';
                 }
-            } 
-        } 
-    } 
-} 
+            }
+        }
+    }
+}
 
 $token = csrf_token();
 ?>
@@ -76,20 +73,53 @@ $token = csrf_token();
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Iniciar sesión - Creaciones Mileth</title>
   <style>
-    body{font-family:Arial, sans-serif;margin:20px;background:#f7f6f4;color:#222;}
-    .card{max-width:420px;margin:24px auto;padding:18px;border-radius:8px;background:#fff;border:1px solid #e3e0d8;}
-    h2{color:#8c6c46;font-family: 'Playfair Display', serif;}
-    label{display:block;margin:10px 0;font-size:14px;}
-    input{width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;}
-    button{background:#8c6c46;color:#fff;border:none;padding:10px 14px;border-radius:6px;cursor:pointer;margin-top:12px;}
-    .error{color:#c0392b;font-weight:600;margin-bottom:10px;}
-    .actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
-    a{color:#4d4537;text-decoration:none;}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: linear-gradient(135deg, #f7f6f4, #e3d5c3);
+      color: #222;
+    }
+    .card {
+      max-width: 420px;
+      margin: 24px auto;
+      padding: 18px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid #e3e0d8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+      animation: fadeIn 0.8s ease;
+    }
+    .card:hover { transform: translateY(-4px); }
+    h2 { color:#8c6c46; font-family: 'Playfair Display', serif; text-align:center; }
+    label { display:block; margin:10px 0; font-size:14px; }
+    input { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; }
+    button {
+      background: linear-gradient(90deg, #8c6c46, #a07a50);
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 12px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    button:hover { background:#a07a50; }
+    .error { color:#c0392b; font-weight:600; margin-bottom:10px; }
+    .actions { display:flex; justify-content:space-between; align-items:center; margin-top:12px; }
+    a { color:#4d4537; text-decoration:none; }
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(20px); }
+      to { opacity:1; transform:translateY(0); }
+    }
   </style>
 </head>
 <body>
   <div class="card">
+    <img src="logo.png" alt="Logo Creaciones Mileth" style="width:80px; display:block; margin:0 auto 20px;">
     <h2>Iniciar sesión</h2>
+    <hr style="border:0; height:2px; background:#8c6c46; margin:12px 0;">
     <?php if ($error): ?><div class="error"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
     <form method="post" action="login.php">
       <input type="hidden" name="csrf" value="<?php echo htmlspecialchars($token); ?>">
@@ -101,18 +131,17 @@ $token = csrf_token();
 
       <label>
         Contraseña
-        <input type="password" name="password" required>
+        <div style="display:flex; align-items:center;">
+          <input type="password" id="password" name="password" required style="flex:1;">
+          <button type="button" onclick="togglePassword()" style="margin-left:6px;">👁️</button>
+        </div>
       </label>
 
-      <!-- Captcha matemático -->
+      <!-- Captcha externo -->
       <label>
-        <?php 
-          $a = rand(1,9); 
-          $b = rand(1,9); 
-          $_SESSION['captcha'] = $a + $b; 
-          echo "¿Cuánto es $a + $b ?"; 
-        ?>
-        <input type="text" name="captcha" placeholder="Respuesta" required>
+        Ingresa el código:
+        <?php include("captcha.php"); ?>
+        <input type="text" name="captcha" placeholder="Código" required>
       </label>
 
       <div class="actions">
@@ -124,6 +153,12 @@ $token = csrf_token();
       </div>
     </form>
   </div>
+<script>
+function togglePassword() {
+  const input = document.getElementById('password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+</script>
 </body>
 </html>
 
