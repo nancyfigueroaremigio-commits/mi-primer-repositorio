@@ -409,6 +409,7 @@ button[type="submit"]:hover {
 
   <nav>
     <a onclick="showSection('home')">Inicio</a>
+    <!-- Catálogo: enlace que abre la sección del catálogo -->
     <a onclick="showSection('catalogo')">Catálogo</a>
     <a onclick="showSection('contact')">Contacto</a>
 
@@ -549,6 +550,7 @@ $color = match ($estado) {
 
 
     <div style="margin-top:16px;">
+      <!-- Catálogo: botón dentro de Mi cuenta que lleva a la sección del catálogo -->
       <button class="cta" onclick="showSection('catalogo')">Ir al catálogo</button>
       <a href="logout.php" style="margin-left:12px; color:#4d4537; font-weight:600; text-decoration:none;">Cerrar sesión</a>
     </div>
@@ -701,6 +703,7 @@ function iniciarRotacionDestacados() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  // Catálogo: inicializa la carga de productos del catálogo
   cargarProductos();
   actualizarCarrito();
   iniciarRotacionDestacados(); // ⏱️ activa la rotación
@@ -741,6 +744,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Catálogo
     let productos = [];
 
+    // Catálogo: obtiene los datos desde productos_api.php
 async function cargarProductos() {
   try {
     const res = await fetch('productos_api.php');
@@ -870,6 +874,7 @@ async function cargarProductos() {
 
     // Abrir catálogo y resaltar producto
     function openProduct(productId){
+      // Catálogo: muestra la sección del catálogo y resalta el producto
       renderCatalogo();
       showSection('catalogo');
       const target = document.getElementById('product-' + productId);
