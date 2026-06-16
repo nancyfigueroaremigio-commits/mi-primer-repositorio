@@ -926,6 +926,7 @@ async function cargarProductos() {
 
   return false;
 }
+
 function abrirModalPago() {
   if (!usuarioAutenticado) {
     alert('Debes iniciar sesión para realizar una compra.');

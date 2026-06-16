@@ -5,4 +5,3 @@ $b = rand(1,9);
 $_SESSION['captcha'] = $a + $b;
 echo "¿Cuánto es $a + $b ?";
 ?>
-

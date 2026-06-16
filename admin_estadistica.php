@@ -19,6 +19,7 @@ while($row = $res->fetch_assoc()){
     $meses[] = $row['mes'];
     $ventas[] = $row['ventas'];
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
