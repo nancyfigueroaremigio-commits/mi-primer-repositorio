@@ -291,6 +291,76 @@ thead {
   gap: 40px;
   flex-wrap: wrap;
 }
+.home-products {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.home-products h2 {
+  text-align: center;
+  font-size: 36px;
+  color: #8c6c46;
+  margin-bottom: 30px;
+  font-family: 'Playfair Display', serif;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.home-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+.home-card:hover {
+  transform: translateY(-5px);
+}
+
+.home-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.home-info {
+  padding: 15px;
+}
+
+.home-info h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.home-price {
+  color: #8c6c46;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.btn-ver-productos {
+  display: block;
+  width: fit-content;
+  margin: 40px auto;
+  background: #8c6c46;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.btn-ver-productos:hover {
+  background: #6e5634;
+}
 
 .product-card {
   background: #fffdf8;
@@ -594,13 +664,18 @@ $color = match ($estado) {
     Transformamos barro en creaciones únicas
   </div>
 
-  <div class="featured-products">
-    <h3>Algunas de nuestras creaciones</h3>
+  <div class="home-products">
 
-    <div class="product-grid" id="creaciones-destacadas">
-      <!-- Se llenará dinámicamente -->
-    </div>
+  <h2>Nuestros Productos</h2>
+
+  <div class="home-grid" id="creaciones-destacadas">
   </div>
+
+  <a class="btn-ver-productos" onclick="showSection('catalogo')">
+    Ver catálogo completo →
+  </a>
+
+</div>
 
   <div style="
     margin-top:60px;
@@ -681,12 +756,18 @@ async function cargarCreacionesDestacadas() {
     grid.innerHTML = '';
     destacados.forEach(p => {
       const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <img src="serve_image_pdo.php?id=${p.id}" alt="${p.nombre}" style="cursor:pointer;" onclick='abrirModalProducto(${JSON.stringify(p)})'>
-        <p>${p.nombre}</p>
-        <p style="font-weight:600;color:#4d4537;">$${p.precio}</p>
-      `;
+      card.className = 'home-card';
+     card.innerHTML = `
+  <img src="serve_image_pdo.php?id=${p.id}"
+       alt="${p.nombre}"
+       onclick='abrirModalProducto(${JSON.stringify(p)})'
+       style="cursor:pointer;">
+
+  <div class="home-info">
+      <h3>${p.nombre}</h3>
+      <div class="home-price">$${p.precio}</div>
+  </div>
+`;
       grid.appendChild(card);
     });
   } catch (e) {
