@@ -648,7 +648,8 @@ $color = match ($estado) {
 
   </div>
   </section>
-  <!-- CATALOGO -->
+
+<!-- CATALOGO -->
   <!-- Aquí va la sección del catálogo: contiene el grid donde se renderizan los productos -->
   <section id="catalogo" class="catalog-section">
     <h2>Catálogo de Productos</h2>
@@ -673,7 +674,6 @@ $color = match ($estado) {
   </section>
 
 
-
   <!-- REGISTRO -->
   <?php $token = csrf_token(); ?>
 <section id="register" class="register-section">
@@ -688,6 +688,12 @@ $color = match ($estado) {
   </form>
 </section>
 
+<!-- INICIO DE SESIÓN (placeholder) -->
+<section id="log" class="log-section">
+    <h2>Iniciar Sesión</h2>
+    <!-- Si usas login.php separado, mantén aquí solo información o un enlace -->
+    <p>Usa <a href="login.php">la página de inicio de sesión</a> para acceder.</p>
+  </section>
 
   <!-- SCRIPTS: catálogo, carrito y checkout -->
   <script>
