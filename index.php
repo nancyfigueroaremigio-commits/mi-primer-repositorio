@@ -353,6 +353,7 @@ button[type="submit"]:hover {
     /* ---------------------------
        Catálogo y carrito
        --------------------------- */
+    /* Aquí van los estilos del catálogo y los productos renderizados por JS */
     .catalog-section { max-width:1000px; margin:0 auto; text-align:center; }
     .catalog-section h2 { font-family:'Playfair Display', serif; font-size:28px; color:#8c6c46; margin-bottom:20px; }
     .catalog-section .product-grid { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
@@ -409,6 +410,7 @@ button[type="submit"]:hover {
 
   <nav>
     <a onclick="showSection('home')">Inicio</a>
+    <!-- Catálogo: enlace que abre la sección del catálogo -->
     <a onclick="showSection('catalogo')">Catálogo</a>
     <a onclick="showSection('contact')">Contacto</a>
 
@@ -549,6 +551,7 @@ $color = match ($estado) {
 
 
     <div style="margin-top:16px;">
+      <!-- Catálogo: botón dentro de Mi cuenta que muestra el catálogo -->
       <button class="cta" onclick="showSection('catalogo')">Ir al catálogo</button>
       <a href="logout.php" style="margin-left:12px; color:#4d4537; font-weight:600; text-decoration:none;">Cerrar sesión</a>
     </div>
@@ -644,6 +647,40 @@ $color = match ($estado) {
     </div>
 
   </div>
+  </section>
+  
+<section id="contact" class="contact-section">
+  <h2>Contáctanos</h2>
+    <p><strong>Tienda física:</strong> Calle Cualquiera 123, Cualquier Lugar</p>
+    <p><strong>Teléfono:</strong> 911-234-5678</p>
+    <p><strong>Email:</strong> hola@creacionesmileth.com</p>
+    <p>Si tienes dudas sobre un pedido o deseas solicitar una pieza personalizada, escríbenos y te responderemos pronto.</p>
+</section>
+
+
+<!-- CATALOGO -->
+  <!-- Aquí va la sección del catálogo: contiene el grid donde se renderizan los productos -->
+  <section id="catalogo" class="catalog-section">
+    <h2>Catálogo de Productos</h2>
+    <?php if (current_role() === 'admin'): ?>
+  <div style="text-align:right; margin-bottom:10px;">
+  </div>
+<?php endif; ?>
+
+    <div class="product-grid" id="catalogo-grid">
+      <!-- Contenedor del catálogo: renderCatalogo() insertará aquí las tarjetas de productos -->
+      <!-- Productos definidos en JS -->
+    </div>
+
+    <div class="carrito">
+      <h3>🛒 Carrito</h3>
+      <ul id="lista-carrito"></ul>
+      <div id="carrito-total" style="margin-top:10px; font-weight:600; color:#4d4537;"></div>
+      <div style="margin-top:12px;">
+        <button id="checkout-btn" class="cta">Pagar / Confirmar pedido</button>
+      </div>
+    </div>
+  </section>
 
 
   <!-- REGISTRO -->
@@ -660,9 +697,8 @@ $color = match ($estado) {
   </form>
 </section>
 
-
-  <!-- INICIO DE SESIÓN (placeholder) -->
-  <section id="log" class="log-section">
+<!-- INICIO DE SESIÓN (placeholder) -->
+<section id="log" class="log-section">
     <h2>Iniciar Sesión</h2>
     <!-- Si usas login.php separado, mantén aquí solo información o un enlace -->
     <p>Usa <a href="login.php">la página de inicio de sesión</a> para acceder.</p>
@@ -741,6 +777,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Catálogo
     let productos = [];
 
+    // Catálogo: carga los productos desde productos_api.php y los muestra en el grid
 async function cargarProductos() {
   try {
     const res = await fetch('productos_api.php');
@@ -751,10 +788,6 @@ async function cargarProductos() {
     console.error('Error al cargar productos', e);
   }
 }
-
-
-
-
 
     function renderCatalogo() {
   const grid = document.getElementById('catalogo-grid');
