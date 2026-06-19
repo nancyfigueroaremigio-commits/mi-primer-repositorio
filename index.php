@@ -108,248 +108,108 @@ if (isset($_POST['registro'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Creaciones Mileth</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     /* ---------------------------
        Reset y tipografía
        --------------------------- */
     body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background-color: #e8ddcf;
-  background-image: 
-    radial-gradient(circle at 20% 20%, rgba(205, 172, 132, 0.3) 0%, transparent 60%),
-    radial-gradient(circle at 80% 40%, rgba(176, 137, 97, 0.25) 0%, transparent 70%),
-    radial-gradient(circle at 30% 80%, rgba(154, 121, 84, 0.2) 0%, transparent 70%);
-  background-blend-mode: multiply;
-  color: #3d3323;
-  overflow-x: hidden;
-}
-section {
-  display: none;
-  padding: 20px;
-  background-color: #f1f0ee;
-}
-
-section.active {
-  display: block;
-}
-
-section.active {
-  display: block;
-}
-h2, h3 {
-  color: #8c6c46;
-}
-.register-section {
-  background-color: rgba(255, 250, 245, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 30px 20px;
-  margin: 30px auto;
-  max-width: 1000px;
-}
-
-
-p, td, th, label {
-  color: #4d4537;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fffdf8;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  margin-top: 20px;
-}
-
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #e6e2d8;
-  text-align: left;
-  color: #4d4537;
-}
-
-thead {
-  background-color: #f5ede3;
-}
-.register-section .cta {
-  margin-top: 20px;
-}
-
-
-
-
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #e8ddcf;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(205, 172, 132, 0.3) 0%, transparent 60%),
+        radial-gradient(circle at 80% 40%, rgba(176, 137, 97, 0.25) 0%, transparent 70%),
+        radial-gradient(circle at 30% 80%, rgba(154, 121, 84, 0.2) 0%, transparent 70%);
+      background-blend-mode: multiply;
+      color: #3d3323;
+      overflow-x: hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
 
     /* ---------------------------
-       Encabezado y navegación
+       Sección: Quiénes Somos
+       Diseño: dos columnas, imagen izquierda 50%, contenido derecha fondo beige claro
        --------------------------- */
-    header {
-      background: linear-gradient(to right, #645444, #c5ae92);
+    section { display: none; padding: 20px; background-color: #f1f0ee; box-sizing: border-box; }
+    section.active { display: block; }
+
+    /* selector específico para evitar conflictos */
+    #quienes {
+      padding: 72px 20px;
+    }
+    .qs-inner {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      border-bottom: 1px solid #ccc;
+      gap: 32px;
+      align-items: stretch;
+      justify-content: center;
     }
-    .logo-title { display:flex; align-items:center; gap:16px; }
-    .logo-title img { height:125px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.2); transition:transform .3s; }
-    .logo-title img:hover { transform:scale(1.05); }
-    .title-header { font-family:'Playfair Display', serif; font-size:28px; color:#fff; margin:0; }
-
-    nav { display:flex; gap:20px; flex-wrap:wrap; }
-    nav a { text-decoration:none; font-size:14px; color:#000; font-weight:600; cursor:pointer; }
-    nav a:hover { color:#8c6c46; }
-
-    /* ---------------------------
-       Secciones
-       --------------------------- */
-    section { display:none; padding:20px; background-color:#f1f0ee; }
-    section.active { display:block; }
-
-    /* ---------------------------
-       Alert (mensaje) — aparece y desaparece
-       --------------------------- */
-    .alert {
-      max-width:400px;
-      margin:20px auto;
-      padding:10px;
-      border:1px solid #f5c6cb;
-      background-color:#fdecea;
-      color:#611a15;
-      border-radius:4px;
-      text-align:center;
-      font-weight:600;
-      opacity:1;
-      transition:opacity .5s ease;
+    .qs-left {
+      flex: 0 0 50%;
+      max-width: 50%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(16,12,8,0.06);
+      background: #ddd; /* placeholder; será reemplazada por la imagen real */
+      min-height: 360px;
     }
-    .alert.hidden { opacity:0; }
-
-    /* ---------------------------
-       Home
-       --------------------------- */
-    .home-text { font-family:'Playfair Display', serif; font-size:16px; font-style:italic; color:#4d4537; text-align:center; margin-bottom:10px; }
-    #home {
-  max-width: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.home-banner {
-  width: 100vw;
-  height: 500px;
-  margin: 0;
-  overflow: hidden;
-  border-radius: 0;
-  box-shadow: none;
-  border: none;
-}
-
-.home-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
-  filter: brightness(0.85) contrast(1.1);
-  animation: zoom 20s infinite alternate ease-in-out;
-}
-
-.home-banner img:hover {
-  transform: scale(1.02);
-}
-
-.home-slogan {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  color: #4d4537;
-  margin: 10px 0 20px;
-}
-
-@keyframes zoom {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1); }
-}
-
-    /* ---------------------------
-       Galería de productos
-       --------------------------- */
-    .featured-products { text-align:center; margin-top:40px; }
-    .featured-products h3 { font-family:'Playfair Display', serif; font-size:22px; color:#8c6c46; margin-bottom:20px; }
-    .product-grid {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.product-card {
-  background: #fffdf8;
-  border-radius: 14px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-  overflow: hidden;
-  width: 240px;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-}
-
-.product-card img {
-  width: 100%;
-  height: 230px;
-  object-fit: cover;
-}
-
-.product-card p {
-  padding: 12px;
-  color: #5a4b38;
-  font-weight: 500;
-  font-size: 15px;
-}
-
-
-    /* ---------------------------
-       Contacto / Registro / Login
-       --------------------------- */
-    .contact-section, .register-section, .log-section { max-width:400px; margin:0 auto; text-align:center; }
-    .contact-section h2, .register-section h2, .log-section h2 { color:#8c6c46; font-family:'Playfair Display', serif; font-size:28px; margin-bottom:20px; }
-    form { display:flex; flex-direction:column; gap:14px; }
-    input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
-      padding:10px; border-radius:6px; border:1px solid #ccc; font-size:14px; font-style:italic; color:#4d4537; width:100%; box-sizing:border-box;
+    .qs-left img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s ease;
     }
-    button.cta,
-button[type="submit"] {
-  background-color: #8c6c46;
-  color: #fffaf0;
-  border: none;
-  padding: 10px 16px;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  transition: background-color 0.3s ease;
-}
+    .qs-left img:hover { transform: scale(1.02); }
 
-button.cta:hover,
-button[type="submit"]:hover {
-  background-color: #6e5634;
-}
+    .qs-right {
+      flex: 0 0 50%;
+      max-width: 50%;
+      background: #F5F2ED; /* beige claro solicitado */
+      padding: 44px 36px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(16,12,8,0.04);
+    }
 
+    .qs-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700; /* Poppins Bold */
+      font-size: 40px;
+      margin: 0 0 12px 0;
+      color: #A88434; /* café dorado */
+      line-height: 1.05;
+    }
 
+<<<<<<< HEAD
+    .qs-decor {
+      width: 80px;
+      height: 4px;
+      background: #B08A3C; /* dorado suave */
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+
+    .qs-text {
+      color: #4A463F; /* gris oscuro cálido */
+      font-size: 16px;
+      line-height: 1.8;
+      margin: 0 0 14px 0;
+      font-weight: 400;
+      font-family: 'Poppins', sans-serif;
+      
+      text-align: justify;
+    }
+
+    /* espacio amplio para apariencia premium */
+    .qs-spacer { height: 8px; }
+=======
     /* ---------------------------
        Catálogo y carrito
        --------------------------- */
@@ -366,30 +226,82 @@ button[type="submit"]:hover {
     .carrito ul { list-style:none; padding:0; margin:0; }
     .carrito ul li { padding:8px 0; border-bottom:1px solid #e6e2d8; display:flex; justify-content:space-between; align-items:center; }
     .carrito .remove { background:transparent; border:none; color:#c0392b; cursor:pointer; font-weight:600; }
+>>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
 
     /* ---------------------------
        Responsive
        --------------------------- */
-    @media (max-width:700px) {
-      .title-header { font-size:24px; }
-      .home-slogan { font-size:18px; }
-      .product-card, .catalog-section .product-card { width:140px; }
-      .catalog-section .product-grid { gap:12px; }
+    @media (max-width: 900px) {
+      .qs-inner {
+        flex-direction: column;
+      }
+      .qs-left, .qs-right { max-width: 100%; flex: 0 0 100%; }
+      .qs-left { min-height: 220px; }
+      .qs-right { padding: 28px; }
+      .qs-title { font-size: 28px; }
     }
-    .icono-perfil {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #8c6c46;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
-}
-.icono-perfil:hover {
-  transform: scale(1.05);
-}
 
+    /* ---------------------------
+       Home / featured products / promo (mantener estilos previos)
+       --------------------------- */
+    .home-text { font-family:'Playfair Display', serif; font-size:16px; font-style:italic; color:#4d4537; text-align:center; margin-bottom:10px; }
+    #home { max-width: 100%; width: 100%; margin: 0; padding: 0; background: transparent; border-radius: 0; box-shadow: none; }
+    .home-banner { width: 100vw; height: 500px; margin: 0; overflow: hidden; border-radius: 0; box-shadow: none; border: none; }
+    .home-banner img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; filter: brightness(0.85) contrast(1.1); animation: zoom 20s infinite alternate ease-in-out; }
+    .home-banner img:hover { transform: scale(1.02); }
+    .home-slogan { text-align: center; font-family: 'Playfair Display', serif; font-size: 22px; color: #4d4537; margin: 10px 0 20px; }
 
+    @keyframes zoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+
+    .featured-products { text-align:center; margin-top:40px; }
+    .featured-products h3 { font-family:'Playfair Display', serif; font-size:22px; color:#8c6c46; margin-bottom:20px; }
+    .product-grid { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; }
+
+    .product-card { background: #fffdf8; border-radius: 14px; box-shadow: 0 6px 14px rgba(0,0,0,0.15); overflow: hidden; width:240px; transition: transform .4s ease, box-shadow .4s ease; text-align:center; margin-bottom:30px; }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.25); }
+    .product-card img { width:100%; height:230px; object-fit:cover; }
+    .product-card p { padding:12px; color:#5a4b38; font-weight:500; font-size:15px; }
+
+    /* Promo block */
+    .promo-block {
+      margin-top:60px;
+      background:#f5f3ef;
+      padding:50px;
+      border-radius:14px;
+      display:flex;
+      gap:40px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .promo-block h2 {
+      font-size:38px;
+      color:#2d241b;
+      line-height:1.3;
+      font-family:'Poppins', sans-serif;
+      font-weight:600;
+      margin:0;
+    }
+    .promo-block img { width:100%; max-width:600px; border-radius:12px; display:block; }
+
+    @media (max-width:900px) {
+      .promo-block { padding:28px; }
+      .promo-block h2 { font-size:26px; }
+    }
+
+    /* ---------------------------
+       Mantener resto de estilos previos
+       --------------------------- */
+    .register-section { background-color: rgba(255, 250, 245, 0.95); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px 20px; margin: 30px auto; max-width: 1000px; }
+    p, td, th, label { color: #4d4537; }
+    header { background: linear-gradient(to right, #645444, #c5ae92); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; padding:10px 20px; border-bottom:1px solid #ccc; }
+    .logo-title { display:flex; align-items:center; gap:16px; }
+    .logo-title img { height:125px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.2); transition:transform .3s; }
+    .logo-title img:hover { transform:scale(1.05); }
+    .title-header { font-family:'Playfair Display', serif; font-size:28px; color:#fff; margin:0; }
+    nav { display:flex; gap:20px; flex-wrap:wrap; }
+    nav a { text-decoration:none; font-size:14px; color:#000; font-weight:600; cursor:pointer; }
+    nav a:hover { color:#8c6c46; }
   </style>
   <script>
   const usuarioAutenticado = <?php echo is_logged_in() ? 'true' : 'false'; ?>;
@@ -400,8 +312,6 @@ button[type="submit"]:hover {
   <div class="alert" id="mensaje-usuario"><?php echo htmlspecialchars($mensaje); ?></div>
  <?php endif; ?>
 
-  
-
   <header>
   <div class="logo-title" onclick="showSection('home')" style="cursor:pointer">
     <img src="logo2.png" alt="Logo Cerámica Mileth">
@@ -410,15 +320,13 @@ button[type="submit"]:hover {
 
   <nav>
     <a onclick="showSection('home')">Inicio</a>
-    <!-- Catálogo: enlace que abre la sección del catálogo -->
     <a onclick="showSection('catalogo')">Catálogo</a>
     <a onclick="showSection('contact')">Contacto</a>
-
+    <a onclick="showSection('quienes')">Quiénes somos</a>
     <?php if (function_exists('is_logged_in') && is_logged_in()): ?>
       <?php
 $icono = current_user()['perfil_icono'] ?? '';
 $ruta = ($icono && file_exists($icono)) ? $icono : 'img/Iconopred.png';
-
 ?>
 <div style="display:flex; flex-direction:column; align-items:center; margin-right:10px;">
   <img src="mostrar_icono.php?v=<?php echo time(); ?>" 
@@ -431,10 +339,6 @@ $ruta = ($icono && file_exists($icono)) ? $icono : 'img/Iconopred.png';
      Mi cuenta
   </a>
 </div>
-
-
-            
-
       <?php if (function_exists('current_role') && current_role() === 'admin'): ?>
   <a href="admin_orders.php">Pedidos</a>
   <a href="admin_altas.php">Altas</a>
@@ -442,10 +346,6 @@ $ruta = ($icono && file_exists($icono)) ? $icono : 'img/Iconopred.png';
   <a href="admin_users.php">Usuarios</a>
   <a href="admin_estadisticas.php">Estadísticas</a>
 <?php endif; ?>
-
-      
-
-
       <a href="logout.php">Cerrar sesión (<?php echo htmlspecialchars(current_user()['nombre'] ?? ''); ?>)</a>
     <?php else: ?>
       <a href="login.php">Iniciar Sesión</a>
@@ -454,6 +354,9 @@ $ruta = ($icono && file_exists($icono)) ? $icono : 'img/Iconopred.png';
   </nav>
 </header>
 
+<<<<<<< HEAD
+  <!-- HOME -->
+=======
   <?php if (function_exists('is_logged_in') && is_logged_in()): ?>
     <?php
     $pedidos_usuario = [];
@@ -584,78 +487,38 @@ $color = match ($estado) {
 <?php endif; ?>
 
     <!-- HOME (si no lo tienes duplicado, deja uno solo) -->
+>>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
   <section id="home" class="active">
-
-  <div class="home-text">
-    <p>"Tu espacio merece un detalle hecho a mano."</p>
-  </div>
-
-  <div class="home-banner">
-    <img src="Fondo.png" alt="Cerámica en proceso de moldeado">
-  </div>
-
-  <div class="home-slogan">
-    Transformamos barro en creaciones únicas
-  </div>
-
-  <div class="featured-products">
-    <h3>Algunas de nuestras creaciones</h3>
-
-    <div class="product-grid" id="creaciones-destacadas">
-      <!-- Se llenará dinámicamente -->
-    </div>
-  </div>
-
-  <div style="
-    margin-top:60px;
-    background:#f5f3ef;
-    padding:50px;
-    border-radius:14px;
-  ">
-
-    <div style="
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:40px;
-      flex-wrap:wrap;
-    ">
-
-      <div style="flex:1; min-width:300px;">
-        <h2 style="
-          font-size:38px;
-          color:#2d241b;
-          line-height:1.3;
-          font-family:'Poppins', sans-serif;
-          font-weight:600;
-        ">
-          Contamos con impresión de logo o nombres
-          para hacer tu artículo memorable
-        </h2>
-      </div>
-
-      <div style="flex:1; display:flex; justify-content:center;">
-        <img src="imagenpromocional5.jpg"
-             alt="Cerámica personalizada"
-             style="
-               width:100%;
-               max-width:600px;
-               border-radius:12px;
-             ">
-      </div>
-
+    <div class="home-text">
+      <p>"Tu espacio merece un detalle hecho a mano."</p>
     </div>
 
+<<<<<<< HEAD
+    <div class="home-banner">
+      <img src="Fondo.png" alt="Cerámica en proceso de moldeado">
+    </div>
+=======
   </div>
   </section>
+<<<<<<< HEAD
   <!-- CONTACTO -->
 <section id="contact" class="contact-section">
     <h2>Contáctanos</h2>
+=======
+  
+<section id="contact" class="contact-section">
+  <h2>Contáctanos</h2>
+>>>>>>> a348e0cc58e842aa4c0e54d6665516cd50211c91
     <p><strong>Tienda física:</strong> Calle Cualquiera 123, Cualquier Lugar</p>
     <p><strong>Teléfono:</strong> 911-234-5678</p>
     <p><strong>Email:</strong> hola@creacionesmileth.com</p>
     <p>Si tienes dudas sobre un pedido o deseas solicitar una pieza personalizada, escríbenos y te responderemos pronto.</p>
+<<<<<<< HEAD
   </section>
+=======
+</section>
+
+>>>>>>> a348e0cc58e842aa4c0e54d6665516cd50211c91
 
 <!-- CATALOGO -->
   <!-- Aquí va la sección del catálogo: contiene el grid donde se renderizan los productos -->
@@ -680,7 +543,84 @@ $color = match ($estado) {
       </div>
     </div>
   </section>
+>>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
 
+    <div class="home-slogan">
+      Transformamos barro en creaciones únicas
+    </div>
+
+    <!-- restaurado: Featured products (creaciones destacadas) -->
+    <div class="featured-products">
+      <h3>Algunas de nuestras creaciones</h3>
+      <div class="product-grid" id="creaciones-destacadas">
+        <!-- Se llenará dinámicamente -->
+      </div>
+    </div>
+
+    <!-- restaurado: Bloque promocional grande -->
+    <div class="promo-block" role="region" aria-label="Promoción">
+      <div style="flex:1; min-width:260px;">
+        <h2>Contamos con impresión de logo o nombres para hacer tu artículo memorable</h2>
+      </div>
+      <div style="flex:1; display:flex; justify-content:center; min-width:260px;">
+        <img src="imagenpromocional5.jpg" alt="Cerámica personalizada">
+      </div>
+    </div>
+  </section>
+
+  <!-- NUEVA SECCIÓN: QUIÉNES SOMOS -->
+  <section id="quienes" aria-labelledby="qs-title" role="region">
+    <div class="qs-inner">
+      <div class="qs-left" aria-hidden="true">
+        <!-- Coloca aquí tu imagen real reemplazando 'quienes.jpg' -->
+        <img src="quienessomos.jpg" alt="Taller de Creaciones Mileth">
+      </div>
+
+      <div class="qs-right">
+        <h2 id="qs-title" class="qs-title">Creaciones Mileth</h2>
+        <div class="qs-decor" aria-hidden="true"></div>
+
+        <p class="qs-text">
+          Creaciones Mileth es un emprendimiento dedicado a la elaboración y comercialización de piezas artesanales de barro, creadas con dedicación, creatividad y respeto por las tradiciones mexicanas. Cada producto refleja el trabajo manual y el valor cultural que caracteriza a la artesanía de nuestra región.
+        </p>
+
+        <p class="qs-text">
+          Nuestro objetivo es preservar y compartir la belleza del arte en barro a través de piezas únicas que combinan tradición y calidad. En Creaciones Mileth buscamos ofrecer productos que decoren espacios, cuenten historias y mantengan viva una de las expresiones artesanales más representativas de México.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contact" class="contact-section">
+    <h2>Contáctanos</h2>
+    <p><strong>Tienda física:</strong> Calle Cualquiera 123, Cualquier Lugar</p>
+    <p><strong>Teléfono:</strong> 911-234-5678</p>
+    <p><strong>Email:</strong> hola@creacionesmileth.com</p>
+    <p>Si tienes dudas sobre un pedido o deseas solicitar una pieza personalizada, escríbenos y te responderemos pronto.</p>
+  </section>
+
+  <!-- CATALOGO -->
+  <section id="catalogo" class="catalog-section">
+    <h2>Catálogo de Productos</h2>
+    <?php if (current_role() === 'admin'): ?>
+  <div style="text-align:right; margin-bottom:10px;">
+  </div>
+<?php endif; ?>
+
+    <div class="product-grid" id="catalogo-grid">
+      <!-- Contenedor del catálogo: renderCatalogo() insertará aquí las tarjetas de productos -->
+    </div>
+
+    <div class="carrito">
+      <h3>🛒 Carrito</h3>
+      <ul id="lista-carrito"></ul>
+      <div id="carrito-total" style="margin-top:10px; font-weight:600; color:#4d4537;"></div>
+      <div style="margin-top:12px;">
+        <button id="checkout-btn" class="cta">Pagar / Confirmar pedido</button>
+      </div>
+    </div>
+  </section>
 
   <!-- REGISTRO -->
   <?php $token = csrf_token(); ?>
@@ -699,9 +639,8 @@ $color = match ($estado) {
 <!-- INICIO DE SESIÓN (placeholder) -->
 <section id="log" class="log-section">
     <h2>Iniciar Sesión</h2>
-    <!-- Si usas login.php separado, mantén aquí solo información o un enlace -->
     <p>Usa <a href="login.php">la página de inicio de sesión</a> para acceder.</p>
-  </section>
+</section>
 
   <!-- SCRIPTS: catálogo, carrito y checkout -->
   <script>
@@ -738,22 +677,21 @@ function iniciarRotacionDestacados() {
 window.addEventListener('DOMContentLoaded', () => {
   cargarProductos();
   actualizarCarrito();
-  iniciarRotacionDestacados(); // ⏱️ activa la rotación
+  iniciarRotacionDestacados();
   const btn = document.getElementById('checkout-btn');
   if (btn) btn.addEventListener('click', abrirModalPago);
 });
 
+// Manejo de secciones
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
 
-    // Manejo de secciones
-    function showSection(id) {
-      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      const el = document.getElementById(id);
-      if (el) el.classList.add('active');
-      window.scrollTo(0, 0);
-    }
-
-    // Auto ocultar mensaje
-    window.addEventListener('DOMContentLoaded', () => {
+// Auto ocultar mensaje
+window.addEventListener('DOMContentLoaded', () => {
   const alerta = document.getElementById('mensaje-usuario');
   if (alerta) {
     setTimeout(() => {
@@ -769,9 +707,6 @@ window.addEventListener('DOMContentLoaded', () => {
   if (btn) btn.addEventListener('click', abrirModalPago);
 
 });
-
-
-
 
     // Catálogo
     let productos = [];

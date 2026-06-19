@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
+
         if ($email === '' || $password === '') {
             $error = 'Completa todos los campos';
         } else {
@@ -37,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->bind_param('s', $email);
                     $stmt->execute();
                     $res = $stmt->get_result();
+
                     if ($row = $res->fetch_assoc()) {
                         if (password_verify($password, $row['contraseña'])) {
                             session_regenerate_id(true);
@@ -123,13 +125,36 @@ $token = csrf_token();
     <hr style="border:0; height:2px; background:#8c6c46; margin:12px 0;">
     <?php if ($error): ?><div class="error"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
     <form method="post" action="login.php">
-      <input type="hidden" name="csrf" value="<?php echo htmlspecialchars($token); ?>">
+  <input type="hidden" name="csrf" value="<?php echo htmlspecialchars($token); ?>">
 
-      <label>
-        Correo
-        <input type="email" name="email" required>
-      </label>
+  <label>
+    Correo
+    <input type="email" name="email" required>
+  </label>
 
+<<<<<<< HEAD
+  <label>
+    Contraseña
+    <input type="password" name="password" required>
+  </label>
+
+  <!-- Captcha matemático -->
+    <label>
+        Ingresa el código: 
+        <?php include("captcha.php"); ?>
+        <input type="text" name="captcha" placeholder="Código" required>
+    </label>
+
+
+  <div class="actions">
+    <button type="submit">Entrar</button>
+    <p style="margin-top:10px;">
+      <a href="recuperar.php" style="color:#8c6c46; font-weight:600;">¿Olvidaste tu contraseña?</a>
+    </p>
+    <a href="index.php">Volver</a>
+  </div>
+</form>
+=======
       <label>
         Contraseña
         <div style="display:flex; align-items:center;">
@@ -144,21 +169,8 @@ $token = csrf_token();
         <?php include("captcha.php"); ?>
         <input type="text" name="captcha" placeholder="Código" required>
       </label>
+>>>>>>> 26039bdd6b00951a83e02811c2669bc96b3618dc
 
-      <div class="actions">
-        <button type="submit">Entrar</button>
-        <p style="margin-top:10px;">
-          <a href="recuperar.php" style="color:#8c6c46; font-weight:600;">¿Olvidaste tu contraseña?</a>
-        </p>
-        <a href="index.php">Volver</a>
-      </div>
-    </form>
   </div>
-<script>
-function togglePassword() {
-  const input = document.getElementById('password');
-  input.type = input.type === 'password' ? 'text' : 'password';
-}
-</script>
 </body>
 </html>
