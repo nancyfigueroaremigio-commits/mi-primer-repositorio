@@ -109,7 +109,8 @@ if (isset($_POST['registro'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Creaciones Mileth</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <!-- Añado Poppins con peso bold para el título de Quiénes Somos -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     /* ---------------------------
@@ -129,8 +130,6 @@ if (isset($_POST['registro'])) {
 }
 section {
   display: none;
-  padding: 20px;
-  background-color: #f1f0ee;
 }
 
 section.active {
@@ -140,6 +139,7 @@ section.active {
 section.active {
   display: block;
 }
+
 h2, h3 {
   color: #8c6c46;
 }
@@ -180,10 +180,104 @@ thead {
   margin-top: 20px;
 }
 
+/* ---------------------------
+   Quiénes Somos — diseño en dos columnas
+   --------------------------- */
+.about-section {
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background: transparent;
+}
+.about-left, .about-right {
+  flex: 1 1 50%;
+  min-width: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.about-left {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.about-left .about-image {
+  width:100%;
+  height:600px;
+  object-fit:cover;
+  border-radius:12px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* Parte derecha con fondo beige claro */
+.about-right {
+  background: #F8F5F0;
+  padding: 55px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* Título grande y elegante */
+.about-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #A88434; /* café dorado solicitado */
+  font-size: 42px;
+  margin: 0 0 18px 0;
+  line-height: 1.05;
+}
+
+/* Texto descriptivo */
+.about-text {
+  color: #3e3a33; /* gris oscuro cálido */
+  font-size: 16px;
+  line-height: 1.75;
+  margin-bottom: 18px;
+  text-align: left;
+  letter-spacing: 0.1px;
+}
+
+/* Pequeño detalle estético */
+.about-divider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, rgba(168,132,52,1), rgba(140,108,70,0.9));
+  margin: 18px 0;
+  border-radius: 3px;
+}
+
+/* Responsive: en pantallas pequeñas apilar columnas */
+@media (max-width: 900px) {
+  .about-section { flex-direction: column; gap:18px; padding: 0 12px; }
+  .about-left .about-image { height: 320px; }
+  .about-right { padding: 28px; }
+  .about-title { font-size: 30px; }
+}
+/* Estilos adicionales para Quiénes Somos */
+
+#about {
+  background: #f5f2ed;
+  padding: 50px 20px;
+}
+
+.about-right {
+  border-left: 5px solid #A88434;
+}
+
+.about-left .about-image {
+  transition: transform 0.4s ease;
+}
+
+.about-left .about-image:hover {
+  transform: scale(1.03);
+}
 
 
-
-
+/* ---------------------------
+   Resto de estilos existentes (no modificados)
+   --------------------------- */
     /* ---------------------------
        Encabezado y navegación
        --------------------------- */
@@ -350,44 +444,79 @@ button[type="submit"]:hover {
 }
 
 
-    /* ---------------------------
-       Catálogo y carrito
-       --------------------------- */
-    .catalog-section { max-width:1000px; margin:0 auto; text-align:center; }
-    .catalog-section h2 { font-family:'Playfair Display', serif; font-size:28px; color:#8c6c46; margin-bottom:20px; }
-    .catalog-section .product-grid { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
-    .catalog-section .product-card { width:200px; border:1px solid #e0dcd1; border-radius:10px; padding:10px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
-    .catalog-section .product-card img { width:100%; border-radius:8px; }
-    .catalog-section .product-card button { margin-top:10px; background-color:#8c6c46; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
-    .catalog-section .product-card button:hover { background-color:#6e5634; }
-    .carrito {  background-color: #fffdf8;  border-radius: 10px; padding: 20px;  box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
-    .carrito h3 { font-size:20px; color:#4d4537; }
-    .carrito ul { list-style:none; padding:0; margin:0; }
-    .carrito ul li { padding:8px 0; border-bottom:1px solid #e6e2d8; display:flex; justify-content:space-between; align-items:center; }
-    .carrito .remove { background:transparent; border:none; color:#c0392b; cursor:pointer; font-weight:600; }
+/*------------------------------
+SIDEBAR (NUEVO)
+------------------------------*/
 
-    /* ---------------------------
-       Responsive
-       --------------------------- */
-    @media (max-width:700px) {
-      .title-header { font-size:24px; }
-      .home-slogan { font-size:18px; }
-      .product-card, .catalog-section .product-card { width:140px; }
-      .catalog-section .product-grid { gap:12px; }
-    }
-    .icono-perfil {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #8c6c46;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
-}
-.icono-perfil:hover {
-  transform: scale(1.05);
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -250px; /* Comienza oculto a la derecha */
+  width: 250px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+  border-left: 1px solid #e6e2d8;
+  z-index: 1000;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+.sidebar.open {
+  right: 0; /* Muestra el sidebar */
+}
+
+.sidebar h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #8c6c46;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #4d4537;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background 0.3s ease, color 0.3s ease;
+  display: block;
+}
+
+.sidebar a:hover {
+  background: #f1f0ee;
+  color: #8c6c46;
+}
+
+.sidebar .close-btn {
+  background: transparent;
+  border: none;
+  color: #4d4537;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* Botón para abrir el sidebar */
+.open-sidebar-btn {
+  background: #8c6c46;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1001;
+  margin: 10px;
+}
+
+.open-sidebar-btn:hover {
+  background: #6e5634;
+}
+
+/* Fin SIDEBAR */
 
   </style>
   <script>
@@ -409,6 +538,7 @@ button[type="submit"]:hover {
 
   <nav>
     <a onclick="showSection('home')">Inicio</a>
+    <a onclick="showSection('about')">Quiénes Somos</a>
     <!-- Catálogo: enlace que abre la sección del catálogo -->
     <a onclick="showSection('catalogo')">Catálogo</a>
     <a onclick="showSection('contact')">Contacto</a>
@@ -582,6 +712,8 @@ $color = match ($estado) {
   </section>
 <?php endif; ?>
 
+
+
     <!-- HOME (si no lo tienes duplicado, deja uno solo) -->
   <section id="home" class="active">
 
@@ -646,6 +778,36 @@ $color = match ($estado) {
     </div>
 
   </div>
+
+  </section> <!-- ← AGREGA ESTE CIERRE -->
+
+<!-- QUIÉNES SOMOS -->
+<section id="about" class="about-section">
+
+  <div class="about-left">
+    <img class="about-image"
+         src="quienessomos.jpg"
+         alt="Artesanía en barro">
+  </div>
+
+  <div class="about-right">
+    <h2 class="about-title">Creaciones Mileth</h2>
+
+    <div class="about-divider"></div>
+
+    <p class="about-text">
+      Creaciones Mileth es un emprendimiento dedicado a la elaboración y comercialización de piezas artesanales de barro, creadas con dedicación, creatividad y respeto por las tradiciones mexicanas. Cada producto refleja el trabajo manual y el valor cultural que caracteriza a la artesanía de nuestra región.
+    </p>
+
+    <p class="about-text">
+      Nuestro objetivo es preservar y compartir la belleza del arte en barro a través de piezas únicas que combinan tradición y calidad. En Creaciones Mileth buscamos ofrecer productos que decoren espacios, cuenten historias y mantengan viva una de las expresiones artesanales más representativas de México.
+    </p>
+
+  </div>
+
+</section>
+
+  
 
 
   <!-- REGISTRO -->
@@ -741,6 +903,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
+
     // Catálogo
     let productos = [];
 
@@ -756,11 +919,7 @@ async function cargarProductos() {
   }
 }
 
-
-
-
-
-    function renderCatalogo() {
+function renderCatalogo() {
   const grid = document.getElementById('catalogo-grid');
   if (!grid) return;
   grid.innerHTML = '';
@@ -1036,8 +1195,38 @@ function cerrarModalProducto() {
   document.getElementById('modal-producto').style.display = 'none';
 }
 
+/*------------------------------
+FUNCIONES DEL SIDEBAR (NUEVO)
+------------------------------*/
+function abrirSidebar() {
+  document.querySelector('.sidebar').classList.add('open');
+  document.body.style.overflow = 'hidden'; /* Previene el scroll del fondo */
+}
 
+function cerrarSidebar() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.body.style.overflow = 'auto'; /* Restaura el scroll del fondo */
+}
 
+/* Evento para cerrar el sidebar al hacer clic en un enlace */
+document.querySelectorAll('.sidebar a').forEach(link => {
+  link.addEventListener('click', () => {
+    cerrarSidebar();
+  });
+});
+
+/* Fin funciones SIDEBAR */
+
+/* Menu responsive: abrir/cerrar sidebar */
+document.querySelector('.open-sidebar-btn').addEventListener('click', abrirSidebar);
+
+/* Cerrar sidebar al hacer clic fuera de él */
+window.addEventListener('click', (e) => {
+  const sidebar = document.querySelector('.sidebar');
+  if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !document.querySelector('.open-sidebar-btn').contains(e.target)) {
+    cerrarSidebar();
+  }
+});
   </script>
   <!-- Modal de pago -->
 <div id="modal-pago" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;">
@@ -1071,7 +1260,29 @@ function cerrarModalProducto() {
     <p id="modal-descripcion" style="font-style:italic; color:#4d4537;"></p>
   </div>
 </div>
+<!-- SIDEBAR (NUEVO) -->
+<div class="sidebar">
+  <button class="close-btn" onclick="cerrarSidebar()">✖</button>
+  <h2>Menú</h2>
+  <a href="javascript:void(0)" onclick="showSection('home'); cerrarSidebar()">Inicio</a>
+  <a href="javascript:void(0)" onclick="showSection('about'); cerrarSidebar()">Quiénes Somos</a>
+  <a href="javascript:void(0)" onclick="showSection('catalogo'); cerrarSidebar()">Catálogo</a>
+  <a href="javascript:void(0)" onclick="showSection('contact'); cerrarSidebar()">Contacto</a>
+  
+  <?php if (function_exists('is_logged_in') && is_logged_in()): ?>
+    <a href="javascript:void(0)" onclick="showSection('mi_cuenta'); cerrarSidebar()">Mi cuenta</a>
+    <a href="logout.php">Cerrar sesión</a>   
+  <?php else: ?>
+    <a href="login.php">Iniciar Sesión</a>
+    <a href="javascript:void(0)" onclick="showSection('register'); cerrarSidebar()">Registro</a>
+  <?php endif; ?>
 </div>
+
+<!-- Botón flotante para abrir el sidebar en móviles -->
+<button class="open-sidebar-btn">
+  ☰ Abrir menú
+</button>
+
 
 </body>
 </html>
