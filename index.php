@@ -648,6 +648,14 @@ $color = match ($estado) {
 
   </div>
   </section>
+  <!-- CONTACTO -->
+<section id="contact" class="contact-section">
+    <h2>Contáctanos</h2>
+    <p><strong>Tienda física:</strong> Calle Cualquiera 123, Cualquier Lugar</p>
+    <p><strong>Teléfono:</strong> 911-234-5678</p>
+    <p><strong>Email:</strong> hola@creacionesmileth.com</p>
+    <p>Si tienes dudas sobre un pedido o deseas solicitar una pieza personalizada, escríbenos y te responderemos pronto.</p>
+  </section>
 
 <!-- CATALOGO -->
   <!-- Aquí va la sección del catálogo: contiene el grid donde se renderizan los productos -->
