@@ -132,7 +132,6 @@ $token = csrf_token();
     <input type="email" name="email" required>
   </label>
 
-<<<<<<< HEAD
   <label>
     Contraseña
     <input type="password" name="password" required>
@@ -154,22 +153,6 @@ $token = csrf_token();
     <a href="index.php">Volver</a>
   </div>
 </form>
-=======
-      <label>
-        Contraseña
-        <div style="display:flex; align-items:center;">
-          <input type="password" id="password" name="password" required style="flex:1;">
-          <button type="button" onclick="togglePassword()" style="margin-left:6px;">👁️</button>
-        </div>
-      </label>
-
-      <!-- Captcha externo -->
-      <label>
-        Ingresa el código:
-        <?php include("captcha.php"); ?>
-        <input type="text" name="captcha" placeholder="Código" required>
-      </label>
->>>>>>> 26039bdd6b00951a83e02811c2669bc96b3618dc
 
   </div>
 </body>

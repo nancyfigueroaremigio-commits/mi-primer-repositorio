@@ -187,7 +187,6 @@ if (isset($_POST['registro'])) {
       line-height: 1.05;
     }
 
-<<<<<<< HEAD
     .qs-decor {
       width: 80px;
       height: 4px;
@@ -209,7 +208,6 @@ if (isset($_POST['registro'])) {
 
     /* espacio amplio para apariencia premium */
     .qs-spacer { height: 8px; }
-=======
     /* ---------------------------
        Catálogo y carrito
        --------------------------- */
@@ -226,7 +224,6 @@ if (isset($_POST['registro'])) {
     .carrito ul { list-style:none; padding:0; margin:0; }
     .carrito ul li { padding:8px 0; border-bottom:1px solid #e6e2d8; display:flex; justify-content:space-between; align-items:center; }
     .carrito .remove { background:transparent; border:none; color:#c0392b; cursor:pointer; font-weight:600; }
->>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
 
     /* ---------------------------
        Responsive
@@ -302,6 +299,17 @@ if (isset($_POST['registro'])) {
     nav { display:flex; gap:20px; flex-wrap:wrap; }
     nav a { text-decoration:none; font-size:14px; color:#000; font-weight:600; cursor:pointer; }
     nav a:hover { color:#8c6c46; }
+    .icono-perfil {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #8c6c46;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+      display: block;
+    }
+    .icono-perfil:hover { transform: scale(1.05); }
   </style>
   <script>
   const usuarioAutenticado = <?php echo is_logged_in() ? 'true' : 'false'; ?>;
@@ -325,15 +333,52 @@ if (isset($_POST['registro'])) {
     <a onclick="showSection('quienes')">Quiénes somos</a>
     <?php if (function_exists('is_logged_in') && is_logged_in()): ?>
       <?php
-$icono = current_user()['perfil_icono'] ?? '';
-$ruta = ($icono && file_exists($icono)) ? $icono : 'img/Iconopred.png';
-?>
-<div style="display:flex; flex-direction:column; align-items:center; margin-right:10px;">
-  <img src="mostrar_icono.php?v=<?php echo time(); ?>" 
-     alt="Perfil" 
-     class="icono-perfil" 
-     onclick="showSection('mi_cuenta')" 
-     style="cursor:pointer;">
+        $icono = current_user()['perfil_icono'] ?? '';
+        $default_icon = 'img/Iconopred.png';
+
+        // Determinar ruta inicial (usar el valor por defecto)
+        $ruta = $default_icon;
+
+        // Si el usuario tiene un icono, intentar resolverlo
+        if (!empty($icono)) {
+          if (file_exists($icono)) {
+            $ruta = $icono;
+          } else {
+            $rel = __DIR__ . DIRECTORY_SEPARATOR . ltrim($icono, '/\\');
+            if (file_exists($rel)) {
+              $ruta = $rel;
+            }
+          }
+        }
+
+        // Construir src para la etiqueta img
+        $src = '';
+        if (strpos($ruta, 'data:') === 0) {
+          $src = $ruta;
+        } elseif (file_exists($ruta)) {
+          $docRoot = realpath($_SERVER['DOCUMENT_ROOT'] ?? '') ?: null;
+          $realRuta = realpath($ruta);
+          if ($docRoot && $realRuta && strpos($realRuta, $docRoot) === 0) {
+            $webPath = str_replace('\\', '/', substr($realRuta, strlen($docRoot)));
+            if ($webPath === '' || $webPath[0] !== '/') $webPath = '/' . $webPath;
+            $src = $webPath;
+          } else {
+            $src = $ruta;
+          }
+        } else {
+          $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" rx="50" fill="#e6e2d8"/><text x="50" y="58" font-size="40" text-anchor="middle" fill="#8c6c46" font-family="sans-serif">?</text></svg>';
+          $src = 'data:image/svg+xml;base64,' . base64_encode($svg);
+        }
+
+        $img_src = (strpos($src, 'data:') === 0) ? $src : htmlspecialchars($src . '?v=' . time());
+      ?>
+
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right:10px;">
+      <img src="<?php echo $img_src; ?>" 
+       alt="Perfil" 
+       class="icono-perfil" 
+       onclick="showSection('mi_cuenta')" 
+       style="cursor:pointer;">
   <a onclick="showSection('mi_cuenta')" 
      style="font-size:13px; font-weight:600; color:#4d4537; text-decoration:none; margin-top:4px;">
      Mi cuenta
@@ -353,11 +398,7 @@ $ruta = ($icono && file_exists($icono)) ? $icono : 'img/Iconopred.png';
     <?php endif; ?>
   </nav>
 </header>
-
-<<<<<<< HEAD
-  <!-- HOME -->
-=======
-  <?php if (function_exists('is_logged_in') && is_logged_in()): ?>
+<?php if (function_exists('is_logged_in') && is_logged_in()): ?>
     <?php
     $pedidos_usuario = [];
 if (is_logged_in()) {
@@ -486,64 +527,15 @@ $color = match ($estado) {
   </section>
 <?php endif; ?>
 
-    <!-- HOME (si no lo tienes duplicado, deja uno solo) -->
->>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
+  <!-- HOME -->
   <section id="home" class="active">
     <div class="home-text">
       <p>"Tu espacio merece un detalle hecho a mano."</p>
     </div>
 
-<<<<<<< HEAD
     <div class="home-banner">
       <img src="Fondo.png" alt="Cerámica en proceso de moldeado">
     </div>
-=======
-  </div>
-  </section>
-<<<<<<< HEAD
-  <!-- CONTACTO -->
-<section id="contact" class="contact-section">
-    <h2>Contáctanos</h2>
-=======
-  
-<section id="contact" class="contact-section">
-  <h2>Contáctanos</h2>
->>>>>>> a348e0cc58e842aa4c0e54d6665516cd50211c91
-    <p><strong>Tienda física:</strong> Calle Cualquiera 123, Cualquier Lugar</p>
-    <p><strong>Teléfono:</strong> 911-234-5678</p>
-    <p><strong>Email:</strong> hola@creacionesmileth.com</p>
-    <p>Si tienes dudas sobre un pedido o deseas solicitar una pieza personalizada, escríbenos y te responderemos pronto.</p>
-<<<<<<< HEAD
-  </section>
-=======
-</section>
-
->>>>>>> a348e0cc58e842aa4c0e54d6665516cd50211c91
-
-<!-- CATALOGO -->
-  <!-- Aquí va la sección del catálogo: contiene el grid donde se renderizan los productos -->
-  <section id="catalogo" class="catalog-section">
-    <h2>Catálogo de Productos</h2>
-    <?php if (current_role() === 'admin'): ?>
-  <div style="text-align:right; margin-bottom:10px;">
-  </div>
-<?php endif; ?>
-
-    <div class="product-grid" id="catalogo-grid">
-      <!-- Contenedor del catálogo: renderCatalogo() insertará aquí las tarjetas de productos -->
-      <!-- Productos definidos en JS -->
-    </div>
-
-    <div class="carrito">
-      <h3>🛒 Carrito</h3>
-      <ul id="lista-carrito"></ul>
-      <div id="carrito-total" style="margin-top:10px; font-weight:600; color:#4d4537;"></div>
-      <div style="margin-top:12px;">
-        <button id="checkout-btn" class="cta">Pagar / Confirmar pedido</button>
-      </div>
-    </div>
-  </section>
->>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
 
     <div class="home-slogan">
       Transformamos barro en creaciones únicas
@@ -561,6 +553,9 @@ $color = match ($estado) {
     <div class="promo-block" role="region" aria-label="Promoción">
       <div style="flex:1; min-width:260px;">
         <h2>Contamos con impresión de logo o nombres para hacer tu artículo memorable</h2>
+        <div style="margin-top:20px;">
+          <button class="cta" onclick="showSection('contact')" aria-label="Contactar">Contáctanos</button>
+        </div>
       </div>
       <div style="flex:1; display:flex; justify-content:center; min-width:260px;">
         <img src="imagenpromocional5.jpg" alt="Cerámica personalizada">
