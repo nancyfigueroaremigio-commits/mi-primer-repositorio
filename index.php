@@ -187,6 +187,7 @@ if (isset($_POST['registro'])) {
       line-height: 1.05;
     }
 
+<<<<<<< HEAD
     .qs-decor {
       width: 80px;
       height: 4px;
@@ -208,6 +209,24 @@ if (isset($_POST['registro'])) {
 
     /* espacio amplio para apariencia premium */
     .qs-spacer { height: 8px; }
+=======
+    /* ---------------------------
+       Catálogo y carrito
+       --------------------------- */
+    /* Aquí van los estilos del catálogo y los productos renderizados por JS */
+    .catalog-section { max-width:1000px; margin:0 auto; text-align:center; }
+    .catalog-section h2 { font-family:'Playfair Display', serif; font-size:28px; color:#8c6c46; margin-bottom:20px; }
+    .catalog-section .product-grid { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+    .catalog-section .product-card { width:200px; border:1px solid #e0dcd1; border-radius:10px; padding:10px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+    .catalog-section .product-card img { width:100%; border-radius:8px; }
+    .catalog-section .product-card button { margin-top:10px; background-color:#8c6c46; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
+    .catalog-section .product-card button:hover { background-color:#6e5634; }
+    .carrito {  background-color: #fffdf8;  border-radius: 10px; padding: 20px;  box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+    .carrito h3 { font-size:20px; color:#4d4537; }
+    .carrito ul { list-style:none; padding:0; margin:0; }
+    .carrito ul li { padding:8px 0; border-bottom:1px solid #e6e2d8; display:flex; justify-content:space-between; align-items:center; }
+    .carrito .remove { background:transparent; border:none; color:#c0392b; cursor:pointer; font-weight:600; }
+>>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
 
     /* ---------------------------
        Responsive
@@ -335,15 +354,186 @@ $ruta = ($icono && file_exists($icono)) ? $icono : 'img/Iconopred.png';
   </nav>
 </header>
 
+<<<<<<< HEAD
   <!-- HOME -->
+=======
+  <?php if (function_exists('is_logged_in') && is_logged_in()): ?>
+    <?php
+    $pedidos_usuario = [];
+if (is_logged_in()) {
+    $usuario_id = current_user()['id'];
+    $stmt = $enlace->prepare("SELECT id, total, telefono, email, created_at, estado FROM orders WHERE usuario_id = ? ORDER BY created_at DESC");
+    if ($stmt) {
+        $stmt->bind_param("i", $usuario_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $pedidos_usuario = $res->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+    }
+}?>
+  <!-- Sección Mi cuenta visible solo para usuarios autenticados -->
+   
+  <section id="mi_cuenta" class="register-section">
+    
+
+    <h2>Mi cuenta</h2>
+    <p>Bienvenido, <strong><?php echo htmlspecialchars(current_user()['nombre'] ?? ''); ?></strong></p>
+    <p><strong>Correo:</strong> <?php echo htmlspecialchars(current_user()['correo'] ?? ''); ?></p>
+    <p><strong>Rol:</strong> <?php echo htmlspecialchars(current_role() ?? 'user'); ?></p>
+    <form action="upload_icono.php" method="post" enctype="multipart/form-data">
+  <label for="icono">Subir icono de perfil:</label>
+  <input type="file" name="icono" id="icono" accept="image/*" required>
+  <button type="submit">Actualizar icono</button>
+</form>
+    <h3 style="margin-top:30px;">Mis pedidos</h3>
+    
+<?php if (empty($pedidos_usuario)): ?>
+  <p>No has realizado ningún pedido aún.</p>
+<?php else: ?>
+  <table style="width:100%; border-collapse:collapse; background:#fff; margin-top:10px;">
+    
+    <thead>
+      <tr>
+        
+        <th style="padding:8px; border:1px solid #ccc;">ID</th>
+        <th style="padding:8px; border:1px solid #ccc;">Total</th>
+        <th style="padding:8px; border:1px solid #ccc;">Teléfono</th>
+        <th style="padding:8px; border:1px solid #ccc;">Email</th>
+        <th style="padding:8px; border:1px solid #ccc;">Fecha</th>
+        <th style="padding:8px; border:1px solid #ccc;">Estado</th>
+        <th style="padding:8px; border:1px solid #ccc;">Acción</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach ($pedidos_usuario as $p): ?>
+        <tr>
+          <td style="padding:8px; border:1px solid #ccc;">
+            <a href="mi_pedido.php?order_id=<?php echo urlencode($p['id']); ?>">
+              <?php echo htmlspecialchars($p['id']); ?>
+            </a>
+          </td>
+          <td style="padding:8px; border:1px solid #ccc;">$<?php echo htmlspecialchars($p['total']); ?></td>
+          <td style="padding:8px; border:1px solid #ccc;"><?php echo htmlspecialchars($p['telefono']); ?></td>
+          <td style="padding:8px; border:1px solid #ccc;"><?php echo htmlspecialchars($p['email']); ?></td>
+          <td style="padding:8px; border:1px solid #ccc;"><?php echo htmlspecialchars($p['created_at']); ?></td>
+          <td style="padding:8px; border:1px solid #ccc;">
+  <?php if ($p['estado'] === 'pendiente'): ?>
+    <form method="post" onsubmit="return cancelarPedido(event, <?php echo $p['id']; ?>)">
+      <button type="submit" style="background:#c0392b; color:#fff; border:none; padding:6px 10px; border-radius:4px; cursor:pointer;">
+        Cancelar
+      </button>
+    </form>
+  <?php else: ?>
+    —
+  <?php endif; ?>
+</td>
+
+          <?php
+$estado = strtolower($p['estado']);
+$color = match ($estado) {
+    'pendiente'  => '#f39c12', // naranja
+    'procesado'  => '#3498db', // azul
+    'enviado'    => '#27ae60', // verde
+    'cancelado'  => '#c0392b', // rojo
+    default      => '#7f8c8d', // gris
+};
+?>
+<td style="padding:8px; border:1px solid #ccc; color:<?php echo $color; ?>; font-weight:bold;">
+  <?php echo htmlspecialchars($p['estado']); ?>
+</td>
+
+
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+  
+<?php endif; ?>
+
+
+    <div style="margin-top:16px;">
+      <!-- Catálogo: botón dentro de Mi cuenta que muestra el catálogo -->
+      <button class="cta" onclick="showSection('catalogo')">Ir al catálogo</button>
+      <a href="logout.php" style="margin-left:12px; color:#4d4537; font-weight:600; text-decoration:none;">Cerrar sesión</a>
+    </div>
+  </section>
+
+  <?php if (function_exists('current_role') && current_role() === 'admin'): ?>
+    <!-- Panel rápido para administradores -->
+    <section id="admin" style="max-width:800px;margin:20px auto;padding:12px;background:#fff;border-radius:8px;border:1px solid #e6e2d8;">
+      <h2 style="color:#8c6c46;font-family:'Playfair Display',serif;margin-top:0;">Panel Admin</h2>
+      <p>Accesos rápidos:</p>
+      <ul>
+        <li><a href="admin_orders.php">Ver pedidos</a></li>
+        <li><a href="admin_products.php">Gestionar productos</a></li>
+        <li><a href="admin_users.php">Gestionar usuarios</a></li>
+        <li><a href="admin_products.php">Agregar productos</a></li>
+
+      </ul>
+    </section>
+  <?php endif; ?>
+
+<?php else: ?>
+  <!-- Contenido para visitantes no autenticados -->
+  <section id="bienvenida-publica" class="home-text" style="text-align:center; padding:14px 20px;">
+    <p>Regístrate o inicia sesión para acceder a tu cuenta, historial de pedidos y opciones administrativas si corresponde.</p>
+    <div style="margin-top:12px;">
+      <a href="login.php" class="cta" style="text-decoration:none; padding:8px 14px; display:inline-block;">Iniciar sesión</a>
+      <button class="cta" onclick="showSection('register')" style="margin-left:10px;">Registrarse</button>
+    </div>
+  </section>
+<?php endif; ?>
+
+    <!-- HOME (si no lo tienes duplicado, deja uno solo) -->
+>>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
   <section id="home" class="active">
     <div class="home-text">
       <p>"Tu espacio merece un detalle hecho a mano."</p>
     </div>
 
+<<<<<<< HEAD
     <div class="home-banner">
       <img src="Fondo.png" alt="Cerámica en proceso de moldeado">
     </div>
+=======
+  </div>
+  </section>
+  
+<section id="contact" class="contact-section">
+  <h2>Contáctanos</h2>
+    <p><strong>Tienda física:</strong> Calle Cualquiera 123, Cualquier Lugar</p>
+    <p><strong>Teléfono:</strong> 911-234-5678</p>
+    <p><strong>Email:</strong> hola@creacionesmileth.com</p>
+    <p>Si tienes dudas sobre un pedido o deseas solicitar una pieza personalizada, escríbenos y te responderemos pronto.</p>
+</section>
+
+
+<!-- CATALOGO -->
+  <!-- Aquí va la sección del catálogo: contiene el grid donde se renderizan los productos -->
+  <section id="catalogo" class="catalog-section">
+    <h2>Catálogo de Productos</h2>
+    <?php if (current_role() === 'admin'): ?>
+  <div style="text-align:right; margin-bottom:10px;">
+  </div>
+<?php endif; ?>
+
+    <div class="product-grid" id="catalogo-grid">
+      <!-- Contenedor del catálogo: renderCatalogo() insertará aquí las tarjetas de productos -->
+      <!-- Productos definidos en JS -->
+    </div>
+
+    <div class="carrito">
+      <h3>🛒 Carrito</h3>
+      <ul id="lista-carrito"></ul>
+      <div id="carrito-total" style="margin-top:10px; font-weight:600; color:#4d4537;"></div>
+      <div style="margin-top:12px;">
+        <button id="checkout-btn" class="cta">Pagar / Confirmar pedido</button>
+      </div>
+    </div>
+  </section>
+>>>>>>> 1e64677f9e4071d9acfe65e61e027a44e47a62dc
 
     <div class="home-slogan">
       Transformamos barro en creaciones únicas
